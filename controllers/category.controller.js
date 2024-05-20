@@ -7,6 +7,7 @@ const {
 // create report
 exports.createCategory = async (req, res) => {
   try {
+    console.log(req.body);
     const result = await createCategoryInDb(req.body);
     res.status(200).json({
       status: "success",

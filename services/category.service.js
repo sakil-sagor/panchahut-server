@@ -2,6 +2,7 @@ const Category = require("../models/Category");
 
 exports.createCategoryInDb = async (details) => {
   const result = await Category.create(details);
+  console.log(result);
   return result;
 };
 exports.findSingleCategoryInDb = async () => {
