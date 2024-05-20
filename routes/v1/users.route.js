@@ -1,11 +1,12 @@
 const express = require("express");
-const usersController = require("../../controllers/users.controller");
-
 const router = express.Router();
+const userController = require("../../controllers/users.controller");
+// user create
+router.route("/createuser").post(userController.createUser);
+// find and get user
+router.route("/login").post(userController.loginUser);
 
-router.route("/").post(usersController.createUser);
-router.route("/").get(usersController.getAllUser);
-router.route("/:userEmail").get(usersController.getUser);
-router.route("/updateRole").patch(usersController.updateRole);
+// get user for authprovider
+router.route("/:phoneNumber").get(userController.getUser);
 
 module.exports = router;

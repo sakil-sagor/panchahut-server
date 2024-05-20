@@ -29,7 +29,7 @@ exports.createProduct = async (req, res) => {
     if (id) {
       productId = parseInt(id) + 1;
     } else {
-      productId = 1001;
+      productId = 101;
     }
 
     const productDetails = { ...req.body, productId };

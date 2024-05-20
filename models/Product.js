@@ -3,7 +3,7 @@ const validator = require("validator");
 
 const ProductSchema = mongoose.Schema(
   {
-    productId: {
+    id: {
       type: Number,
       required: true,
       unique: true,
@@ -17,10 +17,6 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    originName: {
-      type: String,
-      required: true,
-    },
     brandName: {
       type: String,
       required: true,
@@ -29,15 +25,19 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    subCategory: {
+      type: String,
+      required: true,
+    },
     costingPrice: {
       type: Number,
       required: true,
     },
-    offerRate: {
+    discount: {
       type: Number,
       required: true,
     },
-    regularPrice: {
+    sellignPrice: {
       type: Number,
       required: true,
     },
@@ -55,50 +55,28 @@ const ProductSchema = mongoose.Schema(
       },
       required: true,
     },
-    ownerInfo: {
-      ownerName: {
-        type: String,
-        required: true,
-      },
-      ownerImage: {
-        type: String,
-        validate: {
-          validator: (value) =>
-            validator.isURL(value, {
-              protocols: ["http", "https"],
-              require_tld: true,
-              require_protocol: true,
-            }),
-          message: "Invalid image URL",
-        },
-        required: true,
-      },
-      ownerEmail: {
-        type: String,
-        required: true,
-      },
-    },
-    tags: [
-      {
-        id: {
-          type: String,
-        },
-        text: {
-          type: String,
-        },
-        _id: false,
-      },
-    ],
-
-    externalLink: {
-      type: String,
+    adminName: {
+      type: Number,
       required: true,
     },
-    upvotes: [
-      {
-        type: String,
-      },
-    ],
+    weight: {
+      type: Number,
+      default: 0,
+    },
+    weightUnit: {
+      type: String,
+      enum: ["kg", "liter", "pice"],
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    available: {
+      type: String,
+      enum: ["available,sold-out"],
+      default: "available",
+    },
 
     featured: {
       type: Boolean,
@@ -106,58 +84,9 @@ const ProductSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "active", "reject"],
+      enum: ["pending", "active"],
       default: "pending",
     },
-    report: [
-      {
-        email: {
-          type: String,
-        },
-        reportText: {
-          type: String,
-        },
-        _id: false,
-      },
-    ],
-
-    review: [
-      {
-        image: {
-          type: String,
-          validate: {
-            validator: (value) =>
-              validator.isURL(value, {
-                protocols: ["http", "https"],
-                require_tld: true,
-                require_protocol: true,
-              }),
-            message: "Invalid image URL",
-          },
-        },
-        userName: {
-          type: String,
-          default: "",
-        },
-        feadback: {
-          type: String,
-          default: "",
-        },
-        userImage: {
-          type: String,
-          default: "",
-        },
-        rating: {
-          type: Number,
-          default: 0,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
-        _id: false,
-      },
-    ],
   },
   {
     timestamps: true,

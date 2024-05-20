@@ -1,100 +1,90 @@
-const {
-  createUserInDb,
-  findUserInDb,
-  getAllUserFormDb,
-  updateRoleinDb,
-} = require("../services/users.service");
+const User = require("../models/User");
 
-// create up vote
+const {
+  createUserInDB,
+  getUserInDB,
+  findUserByPhone,
+} = require("../services/users.service");
+const { generateToken } = require("../utils/token");
+
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, role } = req.body;
-
-    const existingUser = await findUserInDb(email);
-    if (!existingUser) {
-      const result = await createUserInDb(req.body);
-      res.status(200).json({
-        status: "success",
-        data: result,
-      });
+    // make unique user id
+    const getLastUser = await User.find().sort({ _id: -1 }).limit(1);
+    const id = getLastUser[0]?.userId;
+    let userId;
+    if (id) {
+      userId = parseInt(id) + 1;
     } else {
-      res.status(200).json({
-        status: "success",
-      });
+      userId = 1001;
     }
+    const user = { ...req.body, userId };
+
+    const createdUser = await createUserInDB(user);
+    res.status(200).json({
+      status: "success",
+      message: "Successfully created user",
+      data: createdUser,
+    });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       status: "fail",
-      error: "Couldn't get theUsers",
+      message: "Couldn't create Product",
+      error: error.message,
     });
   }
 };
 
-exports.getAllUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
   try {
-    let filters = { ...req.query };
-    const excludeFields = ["limit", "sort", "page", "fields"];
-    excludeFields.forEach((field) => delete filters[field]);
+    const { phone, password } = req.body;
 
-    const queries = {};
-    // separate sort and make fit for data query
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      queries.sortBy = sortBy;
+    if (!phone || !password) {
+      return res.status(401).json({
+        status: "fail",
+        error: "please provide your credentials",
+      });
     }
 
-    // load specific property and value ( fields)
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      queries.fields = fields;
+    const findUser = await getUserInDB(phone, password);
+    if (!findUser) {
+      return res.status(401).json({
+        status: "fail",
+        error: "No user found, please create an account",
+      });
     }
-    // pagination
-    if (req.query.page) {
-      const { page = 1, limit = 3 } = req.query;
-      const skip = (page - 1) * parseInt(limit);
-      queries.skip = skip;
-      queries.limit = limit;
-    }
-    const result = await getAllUserFormDb(filters, queries);
-    res.status(200).json({
-      status: "success",
-      data: result,
-    });
+    const token = generateToken(findUser);
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      .send({ success: true, userData: findUser });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       status: "fail",
-      error: "Couldn't get the Products",
+      message: "Couldn't find user",
+      error: error.message,
     });
   }
 };
 
 exports.getUser = async (req, res) => {
   try {
-    const { userEmail } = req.params;
-    const result = await findUserInDb(userEmail);
+    const { phoneNumber } = req.params;
+
+    const userData = await findUserByPhone(phoneNumber);
+
     res.status(200).json({
       status: "success",
-      data: result,
+      data: userData,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       status: "fail",
-      error: "Couldn't get the Products",
-    });
-  }
-};
-exports.updateRole = async (req, res) => {
-  try {
-    const { userId, role } = req.body;
-    const result = await updateRoleinDb(userId, role);
-    res.status(200).json({
-      status: "success",
-      data: result,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error: "Couldn't get the Products",
+      message: "Couldn't create Product",
+      error: error.message,
     });
   }
 };
