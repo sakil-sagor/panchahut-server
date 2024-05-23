@@ -2,6 +2,8 @@ const {
   createCategoryInDb,
   findExistinCategoryDb,
   findAllCategoryInDb,
+  createSubCategoryInDB,
+  deleteSubCategoryInDB,
 } = require("../services/category.service");
 
 const {
@@ -9,7 +11,7 @@ const {
   deleteCategoryInDb,
 } = require("../services/category.service");
 
-// create report
+// create category
 exports.createCategory = async (req, res) => {
   try {
     console.log(req.body);
@@ -46,9 +48,12 @@ exports.allCategory = async (req, res) => {
     });
   }
 };
-exports.singleCategory = async (req, res) => {
+
+// delete category
+exports.deleteCategory = async (req, res) => {
   try {
-    const result = await findSingleCategoryInDb();
+    const { id } = req.params;
+    const result = await deleteCategoryInDb(id);
     res.status(200).json({
       status: "success",
       data: result,
@@ -60,11 +65,30 @@ exports.singleCategory = async (req, res) => {
     });
   }
 };
-// delete category
-exports.deleteCategory = async (req, res) => {
+// create sub category
+exports.createSubCategory = async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await deleteCategoryInDb(id);
+    const { categoryId, subCategory } = req.body;
+    console.log(categoryId);
+    console.log(subCategory);
+    const result = await createSubCategoryInDB(categoryId, subCategory);
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error: "Couldn't get the Products",
+    });
+  }
+};
+// remove sub category name
+exports.deleteSubCategory = async (req, res) => {
+  try {
+    const { categoryId, subName } = req.body;
+
+    const result = await deleteSubCategoryInDB(categoryId, subName);
     res.status(200).json({
       status: "success",
       data: result,
