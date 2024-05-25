@@ -3,12 +3,16 @@ const validator = require("validator");
 
 const ProductSchema = mongoose.Schema(
   {
-    id: {
+    productId: {
       type: Number,
       required: true,
       unique: true,
     },
     productName: {
+      type: String,
+      required: true,
+    },
+    productNameBangla: {
       type: String,
       required: true,
     },
@@ -25,7 +29,7 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    subCategory: {
+    subcategory: {
       type: String,
       required: true,
     },
@@ -37,7 +41,7 @@ const ProductSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    sellignPrice: {
+    regularPrice: {
       type: Number,
       required: true,
     },
@@ -56,7 +60,7 @@ const ProductSchema = mongoose.Schema(
       required: true,
     },
     adminName: {
-      type: Number,
+      type: String,
       required: true,
     },
     weight: {
@@ -65,16 +69,15 @@ const ProductSchema = mongoose.Schema(
     },
     weightUnit: {
       type: String,
-      enum: ["kg", "liter", "pice"],
       required: true,
     },
     quantity: {
       type: Number,
       required: true,
     },
-    available: {
+    isAvailable: {
       type: String,
-      enum: ["available,sold-out"],
+      enum: ["available", "limited", "sold-out"],
       default: "available",
     },
 

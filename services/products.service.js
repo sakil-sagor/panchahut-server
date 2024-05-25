@@ -1,8 +1,8 @@
 const Product = require("../models/Product");
+
 // create single product
 exports.createProductInDb = async (detials) => {
   const result = await Product.create(detials);
-
   return result;
 };
 // get all products

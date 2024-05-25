@@ -34,7 +34,8 @@ exports.createProduct = async (req, res) => {
 
     const productDetails = { ...req.body, productId };
 
-    const createdRoom = await createProductInDb(productDetails);
+    const createdProduct = await createProductInDb(productDetails);
+
     res.status(200).json({
       status: "success",
       message: "Successfully  created product",
