@@ -21,19 +21,19 @@ exports.getProductFromDb = async (filters, queries) => {
       $limit: parseInt(queries.limit), // Limit the number of documents returned
     },
   ]);
-  const totalRoom = await Product.countDocuments(filters);
-  const pageCount = Math.ceil(totalRoom / queries.limit);
+  const totalProducts = await Product.countDocuments(filters);
+  const pageCount = Math.ceil(totalProducts / queries.limit);
 
-  return { result, totalRoom, pageCount };
+  return { result, totalProducts, pageCount };
 };
 
 exports.getProductWitoutSearchFromDb = async (queries) => {
   const result = await Product.find({}).skip(queries.skip).limit(queries.limit);
 
-  const totalRoom = await Product.countDocuments({});
-  const pageCount = Math.ceil(totalRoom / queries.limit);
+  const totalProducts = await Product.countDocuments({});
+  const pageCount = Math.ceil(totalProducts / queries.limit);
 
-  return { result, totalRoom, pageCount };
+  return { result, totalProducts, pageCount };
 };
 
 // get single products
