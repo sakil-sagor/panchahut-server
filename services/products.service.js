@@ -38,7 +38,8 @@ exports.getProductWitoutSearchFromDb = async (queries) => {
 
 // get single products
 exports.getSingleProductFromDb = async (id) => {
-  const result = await Product.findOne({ _id: id });
+  const result = await Product.findOne({ productId: id });
+
   return result;
 };
 // get featured products

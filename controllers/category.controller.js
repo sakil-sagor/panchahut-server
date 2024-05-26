@@ -14,7 +14,6 @@ const {
 // create category
 exports.createCategory = async (req, res) => {
   try {
-    console.log(req.body);
     const findExisting = await findExistinCategoryDb(req.body.category);
     if (findExisting) {
       res.status(400);
@@ -69,8 +68,7 @@ exports.deleteCategory = async (req, res) => {
 exports.createSubCategory = async (req, res) => {
   try {
     const { categoryId, subCategory } = req.body;
-    console.log(categoryId);
-    console.log(subCategory);
+
     const result = await createSubCategoryInDB(categoryId, subCategory);
     res.status(200).json({
       status: "success",

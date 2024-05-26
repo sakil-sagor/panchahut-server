@@ -19,7 +19,9 @@ app.use(cookieParser());
 const usersRoute = require("./routes/v1/users.route");
 const productsRoute = require("./routes/v1/products.route");
 const categoryRoute = require("./routes/v1/category.route");
+const salesRoute = require("./routes/v1/sales.route");
 
+app.use("/api/v1/sales", salesRoute);
 app.use("/api/v1/product", productsRoute);
 app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/user", usersRoute);

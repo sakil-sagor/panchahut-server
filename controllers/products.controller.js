@@ -100,6 +100,28 @@ exports.getAllProduct = async (req, res) => {
   }
 };
 
+// get single product
+
+exports.getSingleProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return "";
+    }
+    const singleProduct = await getSingleProductFromDb(id);
+
+    res.status(200).json({
+      status: "success",
+      data: singleProduct,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error: "Couldn't get the Products",
+    });
+  }
+};
+
 // get treding product
 
 exports.gettreadingProduct = async (req, res) => {
@@ -116,24 +138,7 @@ exports.gettreadingProduct = async (req, res) => {
     });
   }
 };
-// get single product
 
-exports.getSingleProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const singleProduct = await getSingleProductFromDb(id);
-
-    res.status(200).json({
-      status: "success",
-      data: singleProduct,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error: "Couldn't get the Products",
-    });
-  }
-};
 // get featured products
 
 exports.getFeaturedProducts = async (req, res) => {

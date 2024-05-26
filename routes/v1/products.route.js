@@ -6,7 +6,9 @@ const router = express.Router();
 router.route("/create").post(productsController.createProduct);
 // get all product
 router.route("/all").get(productsController.getAllProduct);
-// get all product
+// get single product
+router.route("/:id").get(productsController.getSingleProduct);
+
 router.route("/treading").get(productsController.gettreadingProduct);
 // featured products
 router.route("/featuredProducts").get(productsController.getFeaturedProducts);
@@ -26,7 +28,6 @@ router.route("/upvote").put(productsController.creatUpVote);
 router.route("/statusActive").patch(productsController.makeActiveStatus);
 router.route("/statusReject").patch(productsController.makeRejectStatus);
 
-router.route("/:id").get(productsController.getSingleProduct);
 router.route("/:id/report").put(productsController.createProductReport);
 router.route("/:id/review").put(productsController.createProductReview);
 router
