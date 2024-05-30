@@ -73,7 +73,7 @@ exports.loginUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const { phoneNumber } = req.params;
-
+    console.log(phoneNumber);
     const userData = await findUserByPhone(phoneNumber);
 
     res.status(200).json({
