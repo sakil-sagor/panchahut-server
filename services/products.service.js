@@ -39,7 +39,16 @@ exports.getProductWitoutSearchFromDb = async (queries) => {
 // get single products
 exports.getSingleProductFromDb = async (id) => {
   const result = await Product.findOne({ productId: id });
-
+  return result;
+};
+exports.getSingleProductForSell = async (id) => {
+  const result = await Product.findOne({ productId: id }).select({
+    _id: 0,
+    productName: 1,
+    productImage: 1,
+    weight: 1,
+    weightUnit: 1,
+  });
   return result;
 };
 // get featured products

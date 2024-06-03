@@ -1,6 +1,7 @@
 const { restart } = require("nodemon");
 const InventoryBatch = require("../models/InventoryBatch");
 const StockIn = require("../models/StockIn");
+const StockOut = require("../models/StockOut");
 
 // create stocks
 
@@ -29,4 +30,14 @@ const createStocksforStockIn = async (details) => {
       const deleteResult = await InventoryBatch.deleteOne({ _id: details._id });
     }
   }
+};
+// make sell product from stock
+exports.makeStockProductSellDb = async (detail) => {
+  const result = await StockOut.create(detail);
+
+  return result;
+};
+exports.getAllStockInDb = async () => {
+  const result = await InventoryBatch.find({});
+  return result;
 };

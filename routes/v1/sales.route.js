@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../../controllers/users.controller");
+const salesController = require("../../controllers/sales.controller");
 // search product for sell by id
-// router.route("/searchsellproduct/:id").post(userController.searchProductById);
+router.route("/:id").get(salesController.searchProductById);
+
+// add to cart sales count
+router.route("/salesforcountincart/:id").get(salesController.getStockQuentity);
 // find and get user
 
 module.exports = router;

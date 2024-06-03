@@ -22,7 +22,6 @@ const {
 // create product
 exports.createProduct = async (req, res) => {
   try {
-    console.log(req.body);
     // make the unique product id
     const getLastProd = await Product.findOne().sort({ createdAt: -1 });
     const id = getLastProd?.productId;
