@@ -2,6 +2,8 @@ const {
   createStocksInDb,
   getAllStockInDb,
   makeStockProductSellDb,
+  getSingleStockaFromDb,
+  updateStockAfterOrder,
 } = require("../services/stocks.service");
 
 // create stocks
@@ -31,7 +33,23 @@ exports.createStocks = async (req, res) => {
 exports.makeSellProdcut = async (req, res) => {
   try {
     // make the unique product id
+    const { orderdProduct } = req.body;
+    // console.log(orderdProduct);
+    for (let product of orderdProduct) {
+      let productStock = await getSingleStockaFromDb(product.stockId);
 
+      if (productStock.quantity >= product.orderQuentity) {
+        continue;
+      } else {
+        throw new Error("Stock is low, Please Cheack again!");
+      }
+    }
+    for (let product of orderdProduct) {
+      const updateStock = await updateStockAfterOrder(
+        product?.stockId,
+        product?.orderQuentity
+      );
+    }
     const createdStocks = await makeStockProductSellDb(req.body);
 
     res.status(200).json({

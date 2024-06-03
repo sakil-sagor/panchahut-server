@@ -34,10 +34,22 @@ const createStocksforStockIn = async (details) => {
 // make sell product from stock
 exports.makeStockProductSellDb = async (detail) => {
   const result = await StockOut.create(detail);
-
   return result;
 };
 exports.getAllStockInDb = async () => {
   const result = await InventoryBatch.find({});
+  return result;
+};
+
+exports.getSingleStockaFromDb = async (id) => {
+  const result = await InventoryBatch.findOne({ _id: id });
+  return result;
+};
+exports.updateStockAfterOrder = async (id, remainStock) => {
+  const result = await InventoryBatch.findOneAndUpdate(
+    { _id: id },
+    { $inc: { quantity: -remainStock } },
+    { new: true } // Return the updated document
+  );
   return result;
 };
