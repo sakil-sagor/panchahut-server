@@ -9,4 +9,6 @@ router.route("/stockin").get(stocksController.getStocksInAll);
 //stock out product
 router.route("/stockout").post(stocksController.makeSellProdcut);
 
+router.route("/stocks-in").get(stocksController.stockInWithPagination);
+
 module.exports = router;

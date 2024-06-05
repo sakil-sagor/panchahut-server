@@ -1,3 +1,4 @@
+const StockIn = require("../models/StockIn");
 const {
   createStocksInDb,
   getAllStockInDb,
@@ -75,6 +76,37 @@ exports.getStocksInAll = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: createdStocks,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Couldn't create product",
+      error: error.message,
+    });
+  }
+};
+// get all stocks with pagination
+exports.stockInWithPagination = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  try {
+    // make the unique product id
+
+    const total = await StockIn.countDocuments();
+    const stocksIn = await StockIn.find()
+      .sort({ createdAt: -1 }) // Optional: sort by creation date
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      status: "success",
+
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: stocksIn,
     });
   } catch (error) {
     res.status(500).json({

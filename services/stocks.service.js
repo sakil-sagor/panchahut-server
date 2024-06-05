@@ -20,6 +20,7 @@ const createStocksforStockIn = async (details) => {
   try {
     let newStock = {
       productId: details.productIdNumber,
+      productName: details.productName,
       costingPrice: details.costingPrice,
       quantity: details.quantity,
     };
@@ -37,7 +38,7 @@ exports.makeStockProductSellDb = async (detail) => {
   return result;
 };
 exports.getAllStockInDb = async () => {
-  const result = await InventoryBatch.find({});
+  const result = await StockIn.find({});
   return result;
 };
 
