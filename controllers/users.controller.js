@@ -9,6 +9,14 @@ const { generateToken } = require("../utils/token");
 
 exports.createUser = async (req, res) => {
   try {
+    const { phone } = req.body;
+    console.log(phone);
+    const existUser = await findUserByPhone(phone);
+    if (existUser?.phone) {
+      res.status(400);
+      throw new Error("Already Exist this User");
+    }
+
     // make unique user id
     const getLastUser = await User.find().sort({ _id: -1 }).limit(1);
     const id = getLastUser[0]?.userId;
@@ -19,8 +27,8 @@ exports.createUser = async (req, res) => {
       userId = 1001;
     }
     const user = { ...req.body, userId };
-
     const createdUser = await createUserInDB(user);
+
     res.status(200).json({
       status: "success",
       message: "Successfully created user",

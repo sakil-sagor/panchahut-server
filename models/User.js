@@ -4,16 +4,14 @@ const validator = require("validator");
 const UserSchema = mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: Number,
       required: true,
       unique: true,
     },
     fullName: {
       type: String,
-      required: [true, "Please provide product name"],
-      trim: true,
-      minLength: [3, "Name must be at least 3 characters."],
       maxLength: [100, "Name is too large"],
+      default: "N/A",
     },
     phone: {
       type: String,
@@ -21,7 +19,6 @@ const UserSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
       default: "123456",
     },
     email: {
@@ -31,6 +28,10 @@ const UserSchema = mongoose.Schema(
         message: "Invalid email address",
       },
       default: "demo@demo.com",
+    },
+    address: {
+      type: String,
+      default: "N/A",
     },
     role: {
       type: String,
