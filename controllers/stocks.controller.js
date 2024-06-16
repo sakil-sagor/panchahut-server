@@ -1,3 +1,4 @@
+const InventoryBatch = require("../models/InventoryBatch");
 const StockIn = require("../models/StockIn");
 const {
   createStocksInDb,
@@ -11,8 +12,17 @@ const {
 exports.createStocks = async (req, res) => {
   try {
     // make the unique product id
+    const getLastProd = await InventoryBatch.findOne().sort({ createdAt: -1 });
+    const id = getLastProd?.stockId;
+    let stockId;
+    if (id) {
+      stockId = parseInt(id) + 1;
+    } else {
+      stockId = 100001;
+    }
+    const productDetails = { ...req.body, stockId };
 
-    const createdStocks = await createStocksInDb(req.body);
+    const createdStocks = await createStocksInDb(productDetails);
     if (!createdStocks) {
       res.status(400);
       throw new Error("Error");
@@ -35,7 +45,7 @@ exports.makeSellProdcut = async (req, res) => {
   try {
     // make the unique product id
     const { orderdProduct } = req.body;
-    // console.log(orderdProduct);
+
     for (let product of orderdProduct) {
       let productStock = await getSingleStockaFromDb(product.stockId);
 
@@ -94,6 +104,7 @@ exports.stockInWithPagination = async (req, res) => {
     // make the unique product id
 
     const total = await StockIn.countDocuments();
+
     const stocksIn = await StockIn.find()
       .sort({ createdAt: -1 }) // Optional: sort by creation date
       .skip(skip)

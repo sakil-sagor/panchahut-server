@@ -10,7 +10,7 @@ const { generateToken } = require("../utils/token");
 exports.createUser = async (req, res) => {
   try {
     const { phone } = req.body;
-    console.log(phone);
+
     const existUser = await findUserByPhone(phone);
     if (existUser?.phone) {
       res.status(400);

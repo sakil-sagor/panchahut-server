@@ -1,3 +1,4 @@
+const InventoryBatch = require("../models/InventoryBatch");
 const Product = require("../models/Product");
 
 // create single product
@@ -7,7 +8,7 @@ exports.createProductInDb = async (detials) => {
 };
 // get all products
 exports.getProductFromDb = async (filters, queries) => {
-  const result = await Product.aggregate([
+  const result = await InventoryBatch.aggregate([
     {
       $match: {
         "tags.text": filters, // Match the text property
@@ -21,14 +22,17 @@ exports.getProductFromDb = async (filters, queries) => {
       $limit: parseInt(queries.limit), // Limit the number of documents returned
     },
   ]);
-  const totalProducts = await Product.countDocuments(filters);
+
+  const totalProducts = await InventoryBatch.countDocuments(filters);
   const pageCount = Math.ceil(totalProducts / queries.limit);
 
   return { result, totalProducts, pageCount };
 };
 
 exports.getProductWitoutSearchFromDb = async (queries) => {
-  const result = await Product.find({}).skip(queries.skip).limit(queries.limit);
+  const result = await InventoryBatch.find({})
+    .skip(queries.skip)
+    .limit(queries.limit);
 
   const totalProducts = await Product.countDocuments({});
   const pageCount = Math.ceil(totalProducts / queries.limit);

@@ -23,3 +23,8 @@ exports.getSingleStock = async (id) => {
   const result = await InventoryBatch.findOne({ _id: id });
   return result;
 };
+
+exports.getSingleStockbyBarcode = async (id) => {
+  const result = await InventoryBatch.findOne({ stockId: id });
+  return result;
+};
