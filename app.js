@@ -33,3 +33,9 @@ app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/user", usersRoute);
 
 module.exports = app;
+
+// PORT=5000
+// TOKEN_SECRET=ec7358b8dae1636356ca084d7e6f8614f1f892761d484e1997793617255cc9a0c10925350cc6598a0f109e62c679dc743ba4f5af1ba3106fd9816107f51ce9c1
+
+// DB_USER=mithun-coaching
+// DB_PASS=rQuUc5Ke4IOvOmw1

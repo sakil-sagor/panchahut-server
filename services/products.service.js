@@ -32,7 +32,8 @@ exports.getProductFromDb = async (filters, queries) => {
 exports.getProductWitoutSearchFromDb = async (queries) => {
   const result = await InventoryBatch.find({})
     .skip(queries.skip)
-    .limit(queries.limit);
+    .limit(queries.limit)
+    .sort({ productIdNumber: 1 });
 
   const totalProducts = await Product.countDocuments({});
   const pageCount = Math.ceil(totalProducts / queries.limit);
