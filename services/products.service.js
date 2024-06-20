@@ -8,10 +8,11 @@ exports.createProductInDb = async (detials) => {
 };
 // get all products
 exports.getProductFromDb = async (filters, queries) => {
-  const result = await InventoryBatch.aggregate([
+  const regex = new RegExp(filters, "i");
+  const result = await Product.aggregate([
     {
       $match: {
-        "tags.text": filters, // Match the text property
+        $or: [{ productName: regex }, { productNameBangla: regex }],
       },
     },
 
@@ -22,21 +23,24 @@ exports.getProductFromDb = async (filters, queries) => {
       $limit: parseInt(queries.limit), // Limit the number of documents returned
     },
   ]);
-
-  const totalProducts = await InventoryBatch.countDocuments(filters);
+  console.log(result);
+  const totalProducts = await Product.countDocuments({
+    $or: [{ productName: regex }, { productNameBangla: regex }],
+  });
   const pageCount = Math.ceil(totalProducts / queries.limit);
 
   return { result, totalProducts, pageCount };
 };
 
 exports.getProductWitoutSearchFromDb = async (queries) => {
-  const result = await InventoryBatch.find({})
+  const result = await Product.find({})
     .skip(queries.skip)
     .limit(queries.limit)
-    .sort({ productIdNumber: 1 });
+    .sort({ productId: 1 });
 
   const totalProducts = await Product.countDocuments({});
   const pageCount = Math.ceil(totalProducts / queries.limit);
+  console.log(pageCount);
 
   return { result, totalProducts, pageCount };
 };

@@ -6,6 +6,8 @@ const {
   makeStockProductSellDb,
   getSingleStockaFromDb,
   updateStockAfterOrder,
+  singleStockinDb,
+  deleteStockFromDb,
 } = require("../services/stocks.service");
 
 // create stocks
@@ -30,6 +32,26 @@ exports.createStocks = async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "Successfully  created product",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Couldn't create product",
+      error: error.message,
+    });
+  }
+};
+
+//get single stock
+exports.getSingleStock = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const createdStocks = await singleStockinDb(productId);
+
+    res.status(200).json({
+      status: "success",
+      data: createdStocks,
     });
   } catch (error) {
     res.status(500).json({
@@ -95,6 +117,7 @@ exports.getStocksInAll = async (req, res) => {
     });
   }
 };
+
 // get all stocks with pagination
 exports.stockInWithPagination = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -109,6 +132,31 @@ exports.stockInWithPagination = async (req, res) => {
       .sort({ createdAt: -1 }) // Optional: sort by creation date
       .skip(skip)
       .limit(limit);
+
+    res.status(200).json({
+      status: "success",
+
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: stocksIn,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: "Couldn't create product",
+      error: error.message,
+    });
+  }
+};
+// get all stocks with pagination
+exports.deleteStock = async (req, res) => {
+  try {
+    // make the unique product id
+    const { stockId } = req.params;
+    console.log(stockId);
+    const result = await deleteStockFromDb(parseInt(stockId));
 
     res.status(200).json({
       status: "success",

@@ -79,7 +79,8 @@ exports.getAllProduct = async (req, res) => {
       queries.skip = skip;
       queries.limit = limit;
     }
-
+    console.log(search);
+    console.log(queries);
     if (search) {
       const allProduct = await getProductFromDb(search, queries);
       res.status(200).json({

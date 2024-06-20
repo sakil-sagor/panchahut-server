@@ -6,6 +6,11 @@ const StockInSchema = mongoose.Schema(
       ref: "Product",
       required: true,
     },
+    stockId: {
+      type: Number,
+      ref: "InventoryBatch",
+      required: true,
+    },
 
     productName: {
       type: String,

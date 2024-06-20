@@ -39,3 +39,7 @@ module.exports = app;
 
 // DB_USER=mithun-coaching
 // DB_PASS=rQuUc5Ke4IOvOmw1
+
+// panchahut
+// keAS8g1X78BSwiNG
+// mongodb+srv://panchahut:keAS8g1X78BSwiNG@cluster0.uw9t1vb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
