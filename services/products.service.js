@@ -23,7 +23,7 @@ exports.getProductFromDb = async (filters, queries) => {
       $limit: parseInt(queries.limit), // Limit the number of documents returned
     },
   ]);
-  console.log(result);
+
   const totalProducts = await Product.countDocuments({
     $or: [{ productName: regex }, { productNameBangla: regex }],
   });
