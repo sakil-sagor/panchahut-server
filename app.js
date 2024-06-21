@@ -42,4 +42,4 @@ module.exports = app;
 
 // panchahut
 // keAS8g1X78BSwiNG
-// mongodb+srv://panchahut:keAS8g1X78BSwiNG@cluster0.uw9t1vb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+// mongodb+srv://panchahut:keAS8g1X78BSwiNG@cluster0.uw9t1vb.mongodb.net/panchahut?retryWrites=true&w=majority&appName=Cluster0
