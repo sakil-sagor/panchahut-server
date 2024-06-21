@@ -25,7 +25,7 @@ exports.createProduct = async (req, res) => {
     // make the unique product id
     const getLastProd = await Product.findOne().sort({ createdAt: -1 });
     const id = getLastProd?.productId;
-    console.log(id);
+
     let productId;
     if (id) {
       productId = parseInt(id) + 1;
@@ -79,8 +79,7 @@ exports.getAllProduct = async (req, res) => {
       queries.skip = skip;
       queries.limit = limit;
     }
-    console.log(search);
-    console.log(queries);
+
     if (search) {
       const allProduct = await getProductFromDb(search, queries);
       res.status(200).json({

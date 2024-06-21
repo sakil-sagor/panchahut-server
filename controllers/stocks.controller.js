@@ -155,7 +155,7 @@ exports.deleteStock = async (req, res) => {
   try {
     // make the unique product id
     const { stockId } = req.params;
-    console.log(stockId);
+
     const result = await deleteStockFromDb(parseInt(stockId));
 
     res.status(200).json({

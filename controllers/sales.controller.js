@@ -32,7 +32,6 @@ exports.searchProductById = async (req, res) => {
 exports.searchProductByIdBarCode = async (req, res) => {
   try {
     const { id } = req.params;
-
     const singleProduct = await getSingleStockbyBarcode(id);
     res.status(200).json({
       status: "success",
@@ -51,9 +50,7 @@ exports.searchProductByIdBarCode = async (req, res) => {
 exports.getStockQuentity = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const singleProduct = await getSingleStock(id);
-
+    const singleProduct = await getSingleStock(parseInt(id));
     res.status(200).json({
       status: "success",
       message: "Successfully  created product",

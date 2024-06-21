@@ -40,7 +40,6 @@ exports.getProductWitoutSearchFromDb = async (queries) => {
 
   const totalProducts = await Product.countDocuments({});
   const pageCount = Math.ceil(totalProducts / queries.limit);
-  console.log(pageCount);
 
   return { result, totalProducts, pageCount };
 };
