@@ -4,7 +4,7 @@ const { getSingleProductForSell } = require("./products.service");
 
 exports.getSingleProductFromStock = async (id) => {
   const mergedData = await InventoryBatch.aggregate([
-    { $match: { productIdNumber: Number(id), quantity: { $gt: 0 } } },
+    { $match: { stockId: Number(id), quantity: { $gt: 0 } } },
     {
       $lookup: {
         from: "products",
