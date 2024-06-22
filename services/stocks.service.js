@@ -49,13 +49,13 @@ exports.singleStockinDb = async (productId) => {
   return result;
 };
 exports.getSingleStockaFromDb = async (id) => {
-  const result = await InventoryBatch.findOne({ _id: id });
+  const result = await InventoryBatch.findOne({ stockId: id });
   return result;
 };
 
 exports.updateStockAfterOrder = async (id, remainStock) => {
   const result = await InventoryBatch.findOneAndUpdate(
-    { _id: id },
+    { stockId: id },
     { $inc: { quantity: -remainStock } },
     { new: true } // Return the updated document
   );

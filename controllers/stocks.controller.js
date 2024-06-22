@@ -68,14 +68,18 @@ exports.makeSellProdcut = async (req, res) => {
     // make the unique product id
     const { orderdProduct } = req.body;
 
+    console.log(orderdProduct);
+
     for (let product of orderdProduct) {
-      let productStock = await getSingleStockaFromDb(product.stockId);
+      console.log(product.stockId);
+      let productStock = await getSingleStockaFromDb(parseInt(product.stockId));
 
       if (productStock.quantity >= product.orderQuentity) {
         continue;
       } else {
         throw new Error("Stock is low, Please Cheack again!");
       }
+      P;
     }
     for (let product of orderdProduct) {
       const updateStock = await updateStockAfterOrder(

@@ -12,7 +12,7 @@ mongoose.connect(url).then(() => {
 });
 
 //server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.get("/", (req, res) => {
   res.send("Running Node Server ");
